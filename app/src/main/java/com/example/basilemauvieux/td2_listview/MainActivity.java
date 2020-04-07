@@ -1,38 +1,28 @@
 package com.example.basilemauvieux.td2_listview;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.basilemauvieux.td2_listview.Entity.Movie;
 
 import java.io.IOException;
+import java.lang.reflect.MalformedParameterizedTypeException;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     public ArrayList<Movie> movies = new ArrayList<>();
-    public ArrayList<Movie> defaultMovies = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        final MainActivity _this = this;
-
-        try {
-            this.defaultMovies = this.generateMovies();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        this.movies = defaultMovies;
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         try {
-            this.giveInfosToView(movies);
+            this.movies = this.generateMovies();
+            this.giveInfosToView(this.movies);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -48,21 +38,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void defaut(View view) {
+        ArrayList<Movie> defaultMovies = new ArrayList<>();
+        this.vider(view);
         try {
-            this.giveInfosToView(this.defaultMovies);
+            defaultMovies = this.generateMovies();
+            this.giveInfosToView(defaultMovies);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        this.movies = this.defaultMovies;
+        this.movies = defaultMovies;
     }
 
     public void giveInfosToView(ArrayList<Movie> movies) throws IOException {
         final ListView list = findViewById(R.id.list);
-
         MovieArrayAdapter movieAdapter = new MovieArrayAdapter(this, movies);
         list.setAdapter(movieAdapter);
-
     }
 
     public void addMovieToList(View view)
@@ -134,25 +125,4 @@ public class MainActivity extends AppCompatActivity {
 
         return movies;
     }
-
-    private void toUseLater() {
-        //Button defaut
-        /*final Button defaut = findViewById(R.id.defaut);
-        defaut.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                final ListView list = findViewById(R.id.list);
-                list.setEmptyView(v);
-            }
-        });
-
-        //Button ajouter
-        final Button ajout = findViewById(R.id.ajout);
-        vide.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-                _this.addMovieToList(_this.movies);
-            }
-        });*/
-    }
-
 }
