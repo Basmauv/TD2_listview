@@ -49,27 +49,23 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
             return null;
         }
 
-        ImageView image = (ImageView)listItem.findViewById(R.id.icon);
+        //ImageView image = (ImageView)listItem.findViewById(R.id.icon);
       // image.setImageBitmap(getBitmapFromURL(currentMovie.getAffiche()));
 
         TextView name = (TextView) listItem.findViewById(R.id.name);
         name.setText(currentMovie.getNom());
 
         TextView annee = (TextView) listItem.findViewById(R.id.annee);
-        annee.setText(currentMovie.getAnnee());
+        annee.setText(String.valueOf(currentMovie.getAnnee()));
 
         TextView cout = (TextView) listItem.findViewById(R.id.cout);
-        cout.setText(currentMovie.getCout());
+        cout.setText(String.valueOf(currentMovie.getCout()) + " €");
 
         TextView producteur = (TextView) listItem.findViewById(R.id.producteur);
-        producteur.setText(currentMovie.getRealisateur());
+        producteur.setText(currentMovie.getProducteur());
 
         TextView realisateur = (TextView) listItem.findViewById(R.id.realisateur);
         realisateur.setText(currentMovie.getRealisateur());
-
-
-
-
 
         return listItem;
     }

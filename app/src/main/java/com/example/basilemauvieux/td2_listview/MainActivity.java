@@ -1,26 +1,23 @@
 package com.example.basilemauvieux.td2_listview;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Context;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.basilemauvieux.td2_listview.Entity.Movie;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        final Context context = this;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -29,6 +26,28 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        //Button vider
+        final Button vide = findViewById(R.id.vide);
+        vide.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                final ListView list = findViewById(R.id.list);
+                list.setEmptyView(v);
+            }
+        });
+
+        //Button ajouter
+        final Button ajout = findViewById(R.id.ajout);
+        vide.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                try {
+                    ((MainActivity) context).generateMovies();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     public void giveInfosToView() throws IOException {

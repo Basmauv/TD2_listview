@@ -42,25 +42,25 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/vide"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Load" />
+            android:text="Vide" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/defaut"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Clear" />
+            android:text="Defaut" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/ajout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Init" />
+            android:text="Ajout" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
