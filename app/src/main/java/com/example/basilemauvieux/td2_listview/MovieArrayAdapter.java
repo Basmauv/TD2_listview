@@ -49,8 +49,9 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
             return null;
         }
 
-        //ImageView image = (ImageView)listItem.findViewById(R.id.icon);
-      // image.setImageBitmap(getBitmapFromURL(currentMovie.getAffiche()));
+        ImageView image = (ImageView)listItem.findViewById(R.id.icon);
+        Bitmap bitmap = this.getBitmapFromURL(currentMovie.getAffiche());
+        //image.setImageBitmap(bitmap);
 
         TextView name = (TextView) listItem.findViewById(R.id.name);
         name.setText(currentMovie.getNom());
@@ -77,8 +78,12 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
             connection.setDoInput(true);
             connection.connect();
             InputStream input = connection.getInputStream();
+            input.close();
+
             return BitmapFactory.decodeStream(input);
         } catch (IOException e) {
+            e.printStackTrace();
+
             return null;
         }
     }

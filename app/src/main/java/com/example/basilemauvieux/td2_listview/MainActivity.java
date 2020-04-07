@@ -1,6 +1,7 @@
 package com.example.basilemauvieux.td2_listview;
 
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ListView;
@@ -18,6 +19,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        int SDK_INT = android.os.Build.VERSION.SDK_INT;
+        if (SDK_INT <= 8) {
+           return;
+        }
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                .permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         setContentView(R.layout.activity_main);
 
         try {
@@ -64,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 .setNom("Je suis un ajout")
                 .setProducteur("Je suis un ajout")
                 .setRealisateur("Je suis un ajout")
-                .setAffiche("https://picsum.photos/536/354")
+                .setAffiche("https://picsum.photos/seed/picsum/536/354")
                 .setCout(202020202);
         ;
 
@@ -84,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                 .setNom("Les 10 Salopards")
                 .setProducteur("Tarantino")
                 .setRealisateur("Tarantino")
-                .setAffiche("https://picsum.photos/536/354")
+                .setAffiche("https://picsum.photos/seed/picsum/536/354")
                 .setCout(120301);
         ;
 
@@ -114,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
                 .setNom("Le seigneur des anneaux")
                 .setProducteur("Peter Jackson")
                 .setRealisateur("Peter Jackson")
-                .setAffiche("https://picsum.photos/id/1084/536/354?grayscale")
+                .setAffiche("https://picsum.photos/seed/picsum/536/354")
                 .setCout(123042159);
         ;
 
