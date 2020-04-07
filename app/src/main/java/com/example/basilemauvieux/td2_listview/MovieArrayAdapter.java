@@ -49,8 +49,9 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
             return null;
         }
 
+        //TODO: MAKE THIS WORK
         ImageView image = (ImageView)listItem.findViewById(R.id.icon);
-        Bitmap bitmap = this.getBitmapFromURL(currentMovie.getAffiche());
+        //Bitmap bitmap = this.getBitmapFromURL(currentMovie.getAffiche());
         //image.setImageBitmap(bitmap);
 
         TextView name = (TextView) listItem.findViewById(R.id.name);
