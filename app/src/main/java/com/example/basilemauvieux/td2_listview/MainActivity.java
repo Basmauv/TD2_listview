@@ -15,10 +15,18 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     public ArrayList<Movie> movies = new ArrayList<>();
+    public ArrayList<Movie> defaultMovies = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         final MainActivity _this = this;
+
+        try {
+            this.defaultMovies = this.generateMovies();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        this.movies = defaultMovies;
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -34,22 +42,23 @@ public class MainActivity extends AppCompatActivity {
         ListView list = findViewById(R.id.list);
         ArrayList<Movie> emptyMovieList = new ArrayList<>();
         MovieArrayAdapter movieAdapter = new MovieArrayAdapter(this, emptyMovieList);
-
         list.setAdapter(movieAdapter);
+
+        this.movies = emptyMovieList;
     }
 
     public void defaut(View view) {
         try {
-            this.giveInfosToView(this.movies);
+            this.giveInfosToView(this.defaultMovies);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        this.movies = this.defaultMovies;
     }
 
     public void giveInfosToView(ArrayList<Movie> movies) throws IOException {
         final ListView list = findViewById(R.id.list);
-
-        movies = this.generateMovies();
 
         MovieArrayAdapter movieAdapter = new MovieArrayAdapter(this, movies);
         list.setAdapter(movieAdapter);
@@ -68,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 .setCout(202020202);
         ;
 
-        movies.add(movie1);
+        this.movies.add(movie1);
 
         final ListView list = findViewById(R.id.list);
         MovieArrayAdapter movieAdapter = new MovieArrayAdapter(this, movies);
