@@ -9,13 +9,13 @@ import android.widget.ListView;
 import com.example.basilemauvieux.td2_listview.Entity.Movie;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.lang.reflect.MalformedParameterizedTypeException;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
 {
 
-    public ArrayList<Movie> movies = new ArrayList<>();
     public MovieArrayAdapter movieAdapter;
 
     @Override
@@ -33,8 +33,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         try {
-            this.movies = this.generateMovies();
-            this.giveInfosToView(this.movies);
+            this.giveInfosToView(this.generateMovies());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -55,28 +54,21 @@ public class MainActivity extends AppCompatActivity
         asyncTask.executeOnExecutor(ImageAsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    public void vider(View view)
-    {
+    public void vider(View view) {
         this.movieAdapter.clear();
     }
 
     public void defaut(View view) throws IOException
     {
-        this.vider(view);
-
-        ArrayList<Movie> defaultMovies = new ArrayList<>();
-        defaultMovies = this.generateMovies();
+        this.movieAdapter.clear();
+        ArrayList<Movie> defaultMovies = this.generateMovies();
+        for (int i = 0; i<this.movieAdapter.getCount(); i++) {
+            System.out.println(this.movieAdapter.getItem(i));
+        }
 
         this.movieAdapter.addAll(defaultMovies);
-        this.movies = defaultMovies;
     }
 
-    public void giveInfosToView(ArrayList<Movie> movies)
-    {
-        final ListView list = findViewById(R.id.list);
-        this.movieAdapter = new MovieArrayAdapter(this, movies);
-        list.setAdapter(movieAdapter);
-    }
 
     public void addMovieToList(View view)
     {
@@ -93,8 +85,15 @@ public class MainActivity extends AppCompatActivity
         this.movieAdapter.add(movie1);
     }
 
-    public ArrayList<Movie> generateMovies() throws IOException {
+    public void giveInfosToView(ArrayList<Movie> movies)
+    {
+        final ListView list = findViewById(R.id.list);
+        this.movieAdapter = new MovieArrayAdapter(this, movies);
+        list.setAdapter(movieAdapter);
+    }
 
+    public ArrayList<Movie> generateMovies() throws IOException {
+        ArrayList<Movie> movies = new ArrayList<>();
 
         Movie movie1 = new Movie();
         movie1
