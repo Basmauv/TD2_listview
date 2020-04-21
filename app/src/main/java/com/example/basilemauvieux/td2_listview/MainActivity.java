@@ -20,6 +20,8 @@ import java.lang.reflect.MalformedParameterizedTypeException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -80,6 +82,31 @@ public class MainActivity extends AppCompatActivity
             thread.start();
         }
 
+    }
+
+    //Question 2.4
+    public void executor(View view)
+    {
+        Handler handler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message msg) {
+                if (msg.what == ImageThread.MESSAGE_UPDATE_MOVIE) {
+                    movieAdapter.notifyDataSetChanged();
+                }
+            }
+        };
+
+        //Dire le nombre de coeurs sur lesquels mapper les thread
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
+
+        for (int i = 0; i < this.movieAdapter.getCount(); i++) {
+            executorService.execute(new ImageThread(this.movieAdapter.getItem(i), handler));
+        }
+    }
+
+    //Questio2.5
+    public void weakReferencies(View view) {
+        
     }
 
     public void vider(View view) {

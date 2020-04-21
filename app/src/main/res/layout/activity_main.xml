@@ -96,6 +96,22 @@
             android:onClick="thread"
             android:text="Thread" />
 
+        <Button
+            android:id="@+id/executor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="executor"
+            android:text="Executor" />
+
+        <Button
+            android:id="@+id/execwr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="weakReferencies"
+            android:text="ExecWR" />
+
     </LinearLayout>
 
 
