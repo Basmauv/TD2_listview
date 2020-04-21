@@ -12,12 +12,15 @@ import java.io.IOException;
 import java.lang.reflect.MalformedParameterizedTypeException;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+{
 
     public ArrayList<Movie> movies = new ArrayList<>();
+    public MovieArrayAdapter movieAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         int SDK_INT = android.os.Build.VERSION.SDK_INT;
         if (SDK_INT <= 8) {
@@ -37,31 +40,41 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void vider(View view) {
-        ListView list = findViewById(R.id.list);
-        ArrayList<Movie> emptyMovieList = new ArrayList<>();
-        MovieArrayAdapter movieAdapter = new MovieArrayAdapter(this, emptyMovieList);
-        list.setAdapter(movieAdapter);
+    //Question 2.1
+    public void atsk(View view)
+    {
+        ImageAsyncTask asyncTask = new ImageAsyncTask(view, this.movieAdapter);
+        asyncTask.execute();
 
-        this.movies = emptyMovieList;
     }
 
-    public void defaut(View view) {
-        ArrayList<Movie> defaultMovies = new ArrayList<>();
-        this.vider(view);
-        try {
-            defaultMovies = this.generateMovies();
-            this.giveInfosToView(defaultMovies);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    //Question 2.2
+    public void ATskExec(View view)
+    {
+        ImageAsyncTask asyncTask = new ImageAsyncTask(view, this.movieAdapter);
+        asyncTask.executeOnExecutor(ImageAsyncTask.THREAD_POOL_EXECUTOR);
+    }
 
+    public void vider(View view)
+    {
+        this.movieAdapter.clear();
+    }
+
+    public void defaut(View view) throws IOException
+    {
+        this.vider(view);
+
+        ArrayList<Movie> defaultMovies = new ArrayList<>();
+        defaultMovies = this.generateMovies();
+
+        this.movieAdapter.addAll(defaultMovies);
         this.movies = defaultMovies;
     }
 
-    public void giveInfosToView(ArrayList<Movie> movies) throws IOException {
+    public void giveInfosToView(ArrayList<Movie> movies)
+    {
         final ListView list = findViewById(R.id.list);
-        MovieArrayAdapter movieAdapter = new MovieArrayAdapter(this, movies);
+        this.movieAdapter = new MovieArrayAdapter(this, movies);
         list.setAdapter(movieAdapter);
     }
 
@@ -73,15 +86,11 @@ public class MainActivity extends AppCompatActivity {
                 .setNom("Je suis un ajout")
                 .setProducteur("Je suis un ajout")
                 .setRealisateur("Je suis un ajout")
-                .setAffiche("https://picsum.photos/seed/picsum/536/354")
+                .setAfficheUrl("https://picsum.photos/seed/picsum/536/354")
                 .setCout(202020202);
         ;
 
-        this.movies.add(movie1);
-
-        final ListView list = findViewById(R.id.list);
-        MovieArrayAdapter movieAdapter = new MovieArrayAdapter(this, movies);
-        list.setAdapter(movieAdapter);
+        this.movieAdapter.add(movie1);
     }
 
     public ArrayList<Movie> generateMovies() throws IOException {
@@ -93,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                 .setNom("Les 10 Salopards")
                 .setProducteur("Tarantino")
                 .setRealisateur("Tarantino")
-                .setAffiche("https://picsum.photos/seed/picsum/536/354")
+                .setAfficheUrl("https://picsum.photos/id/237/536/354")
                 .setCout(120301);
         ;
 
@@ -103,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 .setNom("Star wars")
                 .setProducteur("Quelqu'un")
                 .setRealisateur("Abadon Marus")
-                .setAffiche("https://picsum.photos/id/237/536/354")
+                .setAfficheUrl("https://picsum.photos/id/237/536/354")
                 .setCout(5441233);
         ;
 
@@ -113,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
                 .setNom("Hérésie d'Horus")
                 .setProducteur("Roboute Guli")
                 .setRealisateur("Samuel Jackson")
-                .setAffiche("https://picsum.photos/seed/picsum/536/354")
+                .setAfficheUrl("https://picsum.photos/id/237/536/354")
                 .setCout(1231242131);
         ;
 
@@ -123,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
                 .setNom("Le seigneur des anneaux")
                 .setProducteur("Peter Jackson")
                 .setRealisateur("Peter Jackson")
-                .setAffiche("https://picsum.photos/seed/picsum/536/354")
+                .setAfficheUrl("https://picsum.photos/id/237/536/354")
                 .setCout(123042159);
         ;
 

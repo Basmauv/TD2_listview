@@ -1,5 +1,6 @@
 package com.example.basilemauvieux.td2_listview.Entity;
 
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 
 public class Movie {
@@ -12,7 +13,10 @@ public class Movie {
 
     private int annee;
 
-    private String affiche;
+    private Bitmap affiche = null;
+
+    private String afficheUrl;
+
 
     private int cout;
 
@@ -67,14 +71,12 @@ public class Movie {
         return this;
     }
 
-    public String getAffiche() {
+    public Bitmap getAffiche() {
         return affiche;
     }
 
-    public Movie setAffiche(String affiche) {
+    public void setAffiche(Bitmap affiche) {
         this.affiche = affiche;
-
-        return this;
     }
 
     public int getCout() {
@@ -86,6 +88,17 @@ public class Movie {
 
         return this;
     }
+
+    public String getAfficheUrl() {
+        return afficheUrl;
+    }
+
+    public Movie setAfficheUrl(String afficheUrl) {
+        this.afficheUrl = afficheUrl;
+
+        return this;
+    }
+
 
     @NonNull
     @Override
