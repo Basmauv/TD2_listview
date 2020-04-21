@@ -78,7 +78,6 @@ public class MainActivity extends AppCompatActivity
 
         for (int i = 0; i < this.movieAdapter.getCount(); i++) {
             Thread thread = new Thread(new ImageThread(this.movieAdapter.getItem(i), handler));
-
             thread.start();
         }
 
@@ -106,7 +105,19 @@ public class MainActivity extends AppCompatActivity
 
     //Questio2.5
     public void weakReferencies(View view) {
-        
+        Handler handler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message msg) {
+                if (msg.what == ImageThread.MESSAGE_UPDATE_MOVIE) {
+                    movieAdapter.notifyDataSetChanged();
+                }
+            }
+        };
+
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
+            for (int i = 0; i < this.movieAdapter.getCount(); i++) {
+            executorService.execute(new ImageThreadWR(this.movieAdapter.getItem(i), movieAdapter, handler));
+        }
     }
 
     public void vider(View view) {
@@ -224,5 +235,4 @@ public class MainActivity extends AppCompatActivity
             return null;
         }
     }
-
 }
