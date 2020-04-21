@@ -88,6 +88,14 @@
             android:onClick="ATskExec"
             android:text="AtskExec" />
 
+        <Button
+            android:id="@+id/thread"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="thread"
+            android:text="Thread" />
+
     </LinearLayout>
 
 

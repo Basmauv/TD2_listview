@@ -1,6 +1,11 @@
 package com.example.basilemauvieux.td2_listview;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -9,8 +14,11 @@ import android.widget.ListView;
 import com.example.basilemauvieux.td2_listview.Entity.Movie;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.lang.reflect.MalformedParameterizedTypeException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
@@ -52,6 +60,26 @@ public class MainActivity extends AppCompatActivity
     {
         ImageAsyncTask asyncTask = new ImageAsyncTask(view, this.movieAdapter);
         asyncTask.executeOnExecutor(ImageAsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    //Question 2.3
+    public void thread(View view) {
+        //thread de l'ui
+        Handler handler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message msg) {
+                if (msg.what == ImageThread.MESSAGE_UPDATE_MOVIE) {
+                    movieAdapter.notifyDataSetChanged();
+                }
+            }
+        };
+
+        for (int i = 0; i < this.movieAdapter.getCount(); i++) {
+            Thread thread = new Thread(new ImageThread(this.movieAdapter.getItem(i), handler));
+
+            thread.start();
+        }
+
     }
 
     public void vider(View view) {
@@ -101,9 +129,11 @@ public class MainActivity extends AppCompatActivity
                 .setNom("Les 10 Salopards")
                 .setProducteur("Tarantino")
                 .setRealisateur("Tarantino")
-                .setAfficheUrl("https://picsum.photos/id/237/536/354")
+                .setAfficheUrl("https://picsum.photos/300/300")
                 .setCout(120301);
         ;
+        movie1.setAffiche(this.getBitmapFromURL(movie1.getAfficheUrl()));
+
 
         Movie movie2 = new Movie();
         movie2
@@ -111,9 +141,11 @@ public class MainActivity extends AppCompatActivity
                 .setNom("Star wars")
                 .setProducteur("Quelqu'un")
                 .setRealisateur("Abadon Marus")
-                .setAfficheUrl("https://picsum.photos/id/237/536/354")
+                .setAfficheUrl("https://picsum.photos/300/300")
                 .setCout(5441233);
         ;
+        movie2.setAffiche(this.getBitmapFromURL(movie2.getAfficheUrl()));
+
 
         Movie movie3 = new Movie();
         movie3
@@ -121,9 +153,12 @@ public class MainActivity extends AppCompatActivity
                 .setNom("Hérésie d'Horus")
                 .setProducteur("Roboute Guli")
                 .setRealisateur("Samuel Jackson")
-                .setAfficheUrl("https://picsum.photos/id/237/536/354")
+                .setAfficheUrl("https://picsum.photos/300/300")
                 .setCout(1231242131);
         ;
+
+        movie3.setAffiche(this.getBitmapFromURL(movie3.getAfficheUrl()));
+
 
         Movie movie4 = new Movie();
         movie4
@@ -131,9 +166,11 @@ public class MainActivity extends AppCompatActivity
                 .setNom("Le seigneur des anneaux")
                 .setProducteur("Peter Jackson")
                 .setRealisateur("Peter Jackson")
-                .setAfficheUrl("https://picsum.photos/id/237/536/354")
+                .setAfficheUrl("https://picsum.photos/300/300")
                 .setCout(123042159);
         ;
+
+        movie4.setAffiche(this.getBitmapFromURL(movie4.getAfficheUrl()));
 
         movies.add(movie1);
         movies.add(movie2);
@@ -142,4 +179,23 @@ public class MainActivity extends AppCompatActivity
 
         return movies;
     }
+
+    private Bitmap getBitmapFromURL(String src) {
+        //Pas le moyen le plus opti
+        //Mais le seul que j'ai trouvé pour faire fonctionner le tout
+        System.setProperty("http.keepAlive", "false");
+        try {
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            InputStream input = connection.getInputStream();
+
+            return BitmapFactory.decodeStream(input);
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            return null;
+        }
+    }
+
 }

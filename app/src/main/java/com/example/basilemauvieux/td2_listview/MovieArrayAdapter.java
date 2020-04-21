@@ -20,7 +20,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import com.example.basilemauvieux.td2_listview.Entity.Movie;
 
-
+    
 
 
 public class MovieArrayAdapter extends ArrayAdapter<Movie> {
